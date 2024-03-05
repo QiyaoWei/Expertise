@@ -1,5 +1,9 @@
 #!/bin/bash
+<<<<<<< HEAD
 prop="pred prog"
+=======
+prop="prog pred"
+>>>>>>> 72bf8dc (First commit)
 sim="linear nonlinear"
 data="tcga_100 news_100"
 for i in $prop; do

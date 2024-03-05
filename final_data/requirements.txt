@@ -1,0 +1,10 @@
+optuna
+loguru
+pandas
+scikit-learn
+googledrivedownloader
+torch
+matplotlib
+captum
+seaborn
+protobuf==3.19.0

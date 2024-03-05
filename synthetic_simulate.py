@@ -299,6 +299,7 @@ class SyntheticSimulatorModulatedNonLinear(SyntheticSimulatorBase):
     """
 
     nonlinearities = [
+<<<<<<< HEAD
         lambda x: np.abs(x),
         lambda x: np.exp(-(x**2) / 2),
         lambda x: 1 / (1 + x**2),
@@ -309,6 +310,18 @@ class SyntheticSimulatorModulatedNonLinear(SyntheticSimulatorBase):
         lambda x: np.log(1 + x**2),
         lambda x: np.sqrt(1 + x**2),
         lambda x: np.cosh(x),
+=======
+        # lambda x: np.abs(x),
+        # lambda x: np.exp(-(x**2) / 2),
+        lambda x: 1 / (1 + x**2),
+        # lambda x: np.cos(x),
+        # lambda x: np.arctan(x),
+        # lambda x: np.tanh(x),
+        # lambda x: np.sin(x),
+        # lambda x: np.log(1 + x**2),
+        # lambda x: np.sqrt(1 + x**2),
+        # lambda x: np.cosh(x),
+>>>>>>> 72bf8dc (First commit)
     ]
 
     def __init__(
@@ -318,14 +331,25 @@ class SyntheticSimulatorModulatedNonLinear(SyntheticSimulatorBase):
         num_important_features: int = 10,
         selection_type: str = "random",
         seed: int = 42,
+<<<<<<< HEAD
+=======
+        shift: int = 0
+>>>>>>> 72bf8dc (First commit)
     ) -> None:
         super(SyntheticSimulatorModulatedNonLinear, self).__init__(seed=seed)
         assert selection_type in {"random"}
         assert 0 <= non_linearity_scale <= 1
         self.selection_type = selection_type
         self.non_linearity_scale = non_linearity_scale
+<<<<<<< HEAD
         self.prog_mask, self.pred0_mask, self.pred1_mask = self.get_important_features(
             X, num_important_features
+=======
+        self.length = X.shape[1]
+        self.all_indices = np.array(range(self.length))
+        self.prog_mask, self.pred0_mask, self.pred1_mask = self.get_important_features(
+            X, num_important_features, shift
+>>>>>>> 72bf8dc (First commit)
         )
         self.prog_weights = np.random.uniform(-1, 1, size=(X.shape[1])) * self.prog_mask
         self.pred0_weights = (
@@ -341,9 +365,15 @@ class SyntheticSimulatorModulatedNonLinear(SyntheticSimulatorBase):
         ) = self.sample_nonlinearities()
 
     def get_important_features(
+<<<<<<< HEAD
         self, X: np.ndarray, num_important_features: int
     ) -> Tuple:
         assert 3 * num_important_features <= int(X.shape[1])
+=======
+        self, X: np.ndarray, num_important_features: int, shift: int
+    ) -> Tuple:
+        # assert 3 * num_important_features <= int(X.shape[1])
+>>>>>>> 72bf8dc (First commit)
         np.random.seed(self.seed)
         prog_mask = np.zeros(shape=(X.shape[1]))
         pred0_mask = np.zeros(shape=(X.shape[1]))
@@ -353,6 +383,7 @@ class SyntheticSimulatorModulatedNonLinear(SyntheticSimulatorBase):
             np.empty(shape=0),
             np.empty(shape=0),
         )
+<<<<<<< HEAD
 
         if self.selection_type == "random":
             all_indices = np.array(range(X.shape[1]))
@@ -364,6 +395,34 @@ class SyntheticSimulatorModulatedNonLinear(SyntheticSimulatorBase):
             pred1_indices = all_indices[
                 2 * num_important_features : 3 * num_important_features
             ]
+=======
+        
+        all_indices = self.all_indices
+        prog_indices = all_indices[:num_important_features]
+        pred0_indices = all_indices[:num_important_features]
+        pred1_indices = all_indices[
+            num_important_features : (2 * num_important_features)
+        ]
+
+        temp = 2
+        if shift != 0:
+            prog_indices[:temp*shift] = all_indices[-num_important_features:-num_important_features+temp*shift]
+            pred0_indices[:temp*shift] = all_indices[2*num_important_features:2*num_important_features+temp*shift]
+            pred1_indices[:temp*shift] = all_indices[2*num_important_features:2*num_important_features+temp*shift]
+        print(pred0_indices)
+        print(pred1_indices)
+        
+        # if self.selection_type == "random":
+        #     all_indices = np.array(range(X.shape[1]))
+        #     np.random.shuffle(all_indices)
+        #     prog_indices = all_indices[:num_important_features]
+        #     pred0_indices = all_indices[
+        #         num_important_features : 2 * num_important_features
+        #     ]
+        #     pred1_indices = all_indices[
+        #         2 * num_important_features : 3 * num_important_features
+        #     ]
+>>>>>>> 72bf8dc (First commit)
         prog_mask[prog_indices] = 1
         pred0_mask[pred0_indices] = 1
         pred1_mask[pred1_indices] = 1

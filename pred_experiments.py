@@ -80,6 +80,7 @@ class PredictivePropensitySensitivity:
         #     X_raw_test = np.random.normal(size=X_raw_test.shape)
 
         # This is the ground truth, therefore d=0
+<<<<<<< HEAD
         sim = SyntheticSimulatorLinear(
             X_raw_train,
             num_important_features=num_important_features,
@@ -87,6 +88,26 @@ class PredictivePropensitySensitivity:
             seed=self.seed,
             shift=0
         )
+=======
+
+        if self.synthetic_simulator_type == "linear":
+            sim = SyntheticSimulatorLinear(
+                X_raw_train,
+                num_important_features=num_important_features,
+                random_feature_selection=random_feature_selection,
+                seed=self.seed,
+                shift=0
+            )
+        elif self.synthetic_simulator_type == "nonlinear":
+            sim = SyntheticSimulatorModulatedNonLinear(
+                X_raw_train,
+                num_important_features=num_important_features,
+                non_linearity_scale=nonlinearity_scale,
+                seed=self.seed,
+                shift=0
+            )
+            
+>>>>>>> 72bf8dc (First commit)
         X_train, _, _, po0_train, po1_train, propensity_train = sim.simulate_dataset(
             X_raw_train,
             predictive_scale=predictive_scale,
@@ -122,7 +143,10 @@ class PredictivePropensitySensitivity:
                 num_important_features=num_important_features,
                 non_linearity_scale=nonlinearity_scale,
                 seed=self.seed,
+<<<<<<< HEAD
                 selection_type="random",
+=======
+>>>>>>> 72bf8dc (First commit)
                 shift=shift
             )
         else:
